@@ -20,7 +20,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='download playlist.')
     parser.add_argument('--pl',type=str,required=True,
                                help='playlistFile')
-    parser.add_argument('--dest',type=str,required=True, help='downloadDirectory')
     
     args = parser.parse_args()    
     # read playlist to download
@@ -34,9 +33,8 @@ if __name__ == "__main__":
             playlistInfos = ydl.extract_info(urlPlaylist,False)
         playlistTitle = playlistInfos['title']
         # creer dossier pour playlist et cd dedans
-        with cd(args.dest):
-            os.mkdir(playlistTitle)
-            with cd(playlistTitle):
-                ydl_opts = {'verbose':'','ignoreerrors':''}
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([urlPlaylist])
+        os.mkdir(playlistTitle)
+        with cd(playlistTitle):
+            ydl_opts = {'verbose':'','ignoreerrors':''}
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([urlPlaylist])
